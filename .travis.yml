@@ -1,0 +1,18 @@
+language: go
+go:
+- 1.9
+script: go vet
+before_deploy:
+- "./build.sh"
+deploy:
+  provider: releases
+  api_key:
+    secure: po0qgaUP0fXGA2eJJeRYMV86rAdb0Lzpw404Dtl4p2XE+SF5yOAbIUKkXCApeg0ypx4dSPacTsRezTKmP/mVAH6mvVsxWxJli4Q0UIN502Jp0Hyl3tj43wTFUzIOfk1oMdUiUaRu8Hu4cyD++l6yXmS8YU5M+9mMxz2TcjZPcT6WMwh6vG1M0rv/JVrl+YQhpecpym9zaMiX4BHPS1Y1ILjgHRCF+/f19Tl8Y8MB/L/XeDK8pKhOW7AK01oN1vVDb6Wr/oEbEueuOMe2/0YFZd5HTugQUvMNfSV2LY5JJCtYCG+PJtjGoQc2ZfDeAj8l3xLhG/ppiCc0NTE6baBkhpPpppv8woBYCLtVqCaG33AF0OtYmK7TfzC6RKISr58iAnCW2bbkRkDLUm5iSRcM9d319MlmT3BCZ+tgngcM1dsF8hubpJNOta74zjTD3abINR6uXtAsJcG8dOfJa8MRpOdv1bi5YaEMCmn147HNjTmxuaMNc1lKwUjonbFEb6NT2gGO6yWn69VbClF1ln/eH+swEvum1degj+SlJYfcw/fGVuliVEZPNYLSOCfLHNVeXk0NGG4Xb430C3O66AnCBtjahbwdHyatxix6YlTQmOzwAwRmzn0jYqVIcDXZIWWItxI13wsrSg5VExKmtRDv4o43Bd76B/qQH7HQyBb+LuI=
+  skip_cleanup: true
+  file:
+    - release/kafka_connect_exporter-linux-amd64
+    - release/kafka_connect_exporter-linux-amd64.sha256
+  on:
+    repo: wakeful/kafka_connect_exporter
+    branch: master
+    tags: true
