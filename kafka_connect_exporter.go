@@ -34,7 +34,7 @@ var (
 	areConnectorTasksRunning = prometheus.NewDesc(
 		prometheus.BuildFQName(nameSpace, "connector", "tasks_state_running"),
 		"are connector tasks running?",
-		[]string{"connector", "state", "worker_id"}, nil)
+		[]string{"connector", "state", "worker_id", "id"}, nil)
 )
 
 type connectors []string
@@ -143,7 +143,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 			ch <- prometheus.MustNewConstMetric(
 				areConnectorTasksRunning, prometheus.GaugeValue, isTaskRunning,
-				connectorStatus.Name, strings.ToLower(connectorTask.State), connectorTask.WorkerId,
+				connectorStatus.Name, strings.ToLower(connectorTask.State), connectorTask.WorkerId, fmt.Sprintf("%d", int(connectorTask.Id)),
 			)
 		}
 
