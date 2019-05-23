@@ -193,7 +193,7 @@ func main() {
 	log.Infoln("Starting kafka_connect_exporter")
 
 	prometheus.Unregister(prometheus.NewGoCollector())
-	prometheus.Unregister(prometheus.NewProcessCollector(os.Getegid(), ""))
+	prometheus.Unregister(prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{}))
 	prometheus.MustRegister(NewExporter(*scrapeURI))
 
 	http.Handle(*metricsPath, promhttp.Handler())
