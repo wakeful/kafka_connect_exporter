@@ -72,6 +72,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		Timeout: 3 * time.Second,
 	}
 	e.up.Set(0)
+	ch <- e.up
 
 	response, err := client.Get(e.URI + "/connectors")
 	if err != nil {
