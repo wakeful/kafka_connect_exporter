@@ -140,6 +140,12 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 			if strings.ToLower(connectorTask.State) == "running" {
 				isTaskRunning = 1
 			}
+			if strings.ToLower(connectorTask.State) == "unassigned" {
+				isTaskRunning = 2
+			}
+			if strings.ToLower(connectorTask.State) == "paused" {
+				isTaskRunning = 3
+			}
 
 			ch <- prometheus.MustNewConstMetric(
 				areConnectorTasksRunning, prometheus.GaugeValue, isTaskRunning,
