@@ -136,19 +136,19 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 		for _, connectorTask := range connectorStatus.Tasks {
 
-			var isTaskRunning float64 = 0
+			var taskState float64 = 0
 			if strings.ToLower(connectorTask.State) == "running" {
-				isTaskRunning = 1
+				taskState = 1
 			}
 			if strings.ToLower(connectorTask.State) == "unassigned" {
-				isTaskRunning = 2
+				taskState = 2
 			}
 			if strings.ToLower(connectorTask.State) == "paused" {
-				isTaskRunning = 3
+				taskState = 3
 			}
 
 			ch <- prometheus.MustNewConstMetric(
-				areConnectorTasksRunning, prometheus.GaugeValue, isTaskRunning,
+				areConnectorTasksRunning, prometheus.GaugeValue, taskState,
 				connectorStatus.Name, strings.ToLower(connectorTask.State), connectorTask.WorkerId, fmt.Sprintf("%d", int(connectorTask.Id)),
 			)
 		}
