@@ -76,12 +76,14 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	response, err := client.Get(e.URI + "/connectors")
 	if err != nil {
 		log.Errorf("Can't scrape kafka connect: %v", err)
+		ch <- e.up
 		return
 	}
 	defer func() {
 		err = response.Body.Close()
 		if err != nil {
 			log.Errorf("Can't close connection to kafka connect: %v", err)
+			ch <- e.up
 			return
 		}
 	}()
@@ -89,12 +91,14 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	output, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Errorf("Can't scrape kafka connect: %v", err)
+		ch <- e.up
 		return
 	}
 
 	var connectorsList connectors
 	if err := json.Unmarshal(output, &connectorsList); err != nil {
 		log.Errorf("Can't scrape kafka connect: %v", err)
+		ch <- e.up
 		return
 	}
 
